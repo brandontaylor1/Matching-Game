@@ -125,21 +125,24 @@
         const container = document.getElementById('container')
         
         startBtn.addEventListener('click', generateDifficulty)
+        restartBtn.addEventListener('click', restartGame)
         
         
         
         function generateDifficulty() {
-            let difficulty = prompt("Welcome to the Matching Game! Pick a difficulty level: Easy, Normal, Hard").toLowerCase()
-            if (difficulty === '' || difficulty !== 'easy' || difficulty !== 'normal' || difficulty !== 'hard') {
-                alert(difficulty)}
+            let difficulty = prompt("Welcome to the Matching Game!\nPick a difficulty level: Easy, Normal, Hard").toLowerCase()
+            
+            // if (difficulty === '' || difficulty !== 'Easy' || difficulty !== 'Normal' || difficulty !== 'Hard') {
+            //     alert("Enter a starting level!")
+            // } 
                 
-                if(difficulty === 'easy') {
+            if(difficulty === 'easy') {
                     numberOfFaces = 3
-                } else if(difficulty === 'normal') {
+            } else if(difficulty === 'normal') {
                     numberOfFaces = 5
-                } else if (difficulty === 'hard') {
+            } else if (difficulty === 'hard') {
                     numberOfFaces = 8
-                }
+            }
                 
                 generateFaces() 
             }
@@ -179,16 +182,32 @@
         }
         
         function gameOver() {
-            restartGame() 
             alert("Game Over!")
             restartBtn.style.display = "inline"
             theLeftSide.lastChild.removeEventListener('click', nextLevel);
             theLeftSide.removeEventListener('click', gameOver); 
+            
+            let decision = prompt("Would you like to play again? Yes or No").toLowerCase();
+            
+            if (decision === 'yes') {
+                    restartGame();
+            } else {
+                alert("Thanks for playing!")
+            }
         }
         
         function restartGame() {
-            numberOfFaces = 0
-            restartBtn.addEventListener('click', generateDifficulty)
+            // event.stopPropagation();
+            // numberOfFaces = 0;
+            
+            while(theLeftSide.firstChild) {
+                theLeftSide.removeChild(theLeftSide.firstChild)
+            }
+            
+            while(theRightSide.firstChild) {
+                theRightSide.removeChild(theRightSide.firstChild); 
+            }
+            generateDifficulty();
 
         }
         
